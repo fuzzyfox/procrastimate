@@ -1,0 +1,28 @@
+@import '_variables';
+
+@media print {
+  @page {
+    margin: 0;
+    padding: 0;
+    size: @slide-width @slide-height;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  main {
+    margin: 0;
+    padding: 0;
+    width: @slide-width;
+
+    .slide {
+      margin: 0;
+      padding: 0;
+      width: @slide-width;
+      height: @slide-height;
+      overflow: hidden;
+    }
+  }
+}
