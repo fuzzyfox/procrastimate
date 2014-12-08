@@ -1,0 +1,62 @@
+@import '_variables';
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+.slide {
+	width: @slide-width;
+	height: @slide-height;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+	display: none;
+
+	&.active {
+		display: block;
+	}
+
+	& > div {
+		padding: @slide-padding;
+	}
+}
+
+main {
+	width: @slide-width;
+	height: @slide-height;
+	counter-reset: slide-number;
+
+	// transform page and make scaling magic work
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -( @slide-height / 2 ) 0 0 -( @slide-width / 2 );
+
+	// display page number on each slide IF not disabled either for all or
+	// individual slides using a data attribute.
+	&:not([data-pagenums=false]) .slide:not([data-pagenum=false])::after {
+		content: counter( slide-number );
+		counter-increment: slide-number;
+
+		position: absolute;
+		bottom: 1rem;
+		right: 1rem;
+	}
+
+	// add a progress bar to the bottom of the slide deck.
+	& > .progress {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		height: 0.5rem;
+		z-index: 1;
+		overflow: hidden;
+
+		& > div {
+			height: 100%;
+			background: black;
+			width: 0%;
+		}
+	}
+}

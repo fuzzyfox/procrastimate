@@ -75,13 +75,9 @@ module.exports = function( grunt ) {
 				options: {
 					mangle: false,
 					compress: false,
-					preserveComments: 'all',
-					files: [{
-						expand: true,
-						src: 'src/js/**/*.js',
-						dest: 'build/procrastimate.js'
-					}]
-				}
+					preserveComments: 'all'
+				},
+				files: { 'build/procrastimate.js': 'src/js/**/*.js' }
 			}
 		},
 
@@ -123,5 +119,5 @@ module.exports = function( grunt ) {
 
 	// register tasks
 	grunt.registerTask( 'default', [ 'serve' ] );
-	grunt.registerTask( 'serve', [ 'jshint', 'less:dev', 'copy:dev', 'connect', 'watch' ] );
+	grunt.registerTask( 'serve', [ 'jshint', 'less:dev', 'uglify:dev', 'copy:dev', 'connect', 'watch' ] );
 };
