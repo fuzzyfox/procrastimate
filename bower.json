@@ -1,0 +1,18 @@
+{
+  "name": "procrastimate",
+  "version": "0.0.1",
+  "homepage": "https://github.com/sapphire-robot/procrastimate",
+  "authors": [
+    "William Duyck <fuzzyfox0@gmail.com>",
+    "Joe Harrison <joehazzers@gmail.com>"
+  ],
+  "description": "Last minute slides due to procrastination? Procrastimate is your mate. Did we mention it can animate?",
+  "license": "MPL-2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
