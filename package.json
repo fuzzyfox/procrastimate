@@ -1,6 +1,6 @@
 {
   "name": "procrastimate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Last minute slides due to procrastination? Procrastimate is your mate. Did we mention it can animate?",
   "scripts": {
     "test": "grunt test"
