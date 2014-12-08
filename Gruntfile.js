@@ -35,8 +35,16 @@ module.exports = function( grunt ) {
 			serve: {
 				options: {
 					port: 3000,
-					useAvailablePort: true
+					useAvailablePort: true,
+					base: 'build'
 				}
+			}
+		},
+
+		copy: {
+			dev: {
+				src: 'test/index.html',
+				dest: 'build/index.html'
 			}
 		},
 
@@ -47,7 +55,7 @@ module.exports = function( grunt ) {
 			},
 			files: [
 				'Gruntfile.js',
-				'src/**/*.js'
+				'src/js/**/*.js'
 			]
 		},
 
@@ -79,9 +87,26 @@ module.exports = function( grunt ) {
 
 		// run tasks on file changes
 		watch: {
+			html: {
+				files: [ 'test/index.html' ],
+				tasks: [ 'copy:dev' ],
+				options: {
+					livereload: true
+				}
+			},
+			javascript: {
+				files: [ 'src/js/**/*.js' ],
+				tasks: [ 'jshint', 'uglify:dev' ],
+				options: {
+					livereload: true
+				}
+			},
 			stylesheets: {
 				files: [ 'src/less/**/*.less' ],
-				tasks: [ 'less:dev' ]
+				tasks: [ 'less:dev' ],
+				options: {
+					livereload: true
+				}
 			}
 		}
 	});
@@ -90,6 +115,7 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
 	grunt.loadNpmTasks( 'grunt-bump' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-less' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
@@ -97,5 +123,5 @@ module.exports = function( grunt ) {
 
 	// register tasks
 	grunt.registerTask( 'default', [ 'serve' ] );
-	grunt.registerTask( 'serve', [ 'jshint', 'less:dev', 'connect', 'watch' ] );
+	grunt.registerTask( 'serve', [ 'jshint', 'less:dev', 'copy:dev', 'connect', 'watch' ] );
 };
