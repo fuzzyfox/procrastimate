@@ -77,7 +77,7 @@ module.exports = function( grunt ) {
 					compress: false,
 					preserveComments: 'all'
 				},
-				files: { 'build/procrastimate.js': 'src/js/**/*.js' }
+				files: { 'build/procrastimate.js': [  'src/js/main.js', 'src/js/**/*.js' ] }
 			}
 		},
 
