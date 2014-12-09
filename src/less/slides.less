@@ -6,15 +6,17 @@ html, body {
 }
 
 .slide {
-	width: @slide-width;
-	height: @slide-height;
+	width: 0;
+	height: 0;
 	margin: 0 auto;
 	overflow: hidden;
 	position: relative;
-	display: none;
+	visibility: hidden;
 
 	&.active {
-		display: block;
+		width: @slide-width;
+		height: @slide-height;
+		visibility: visible;
 	}
 
 	& > div {
@@ -35,13 +37,20 @@ main {
 
 	// display page number on each slide IF not disabled either for all or
 	// individual slides using a data attribute.
-	&:not([data-pagenums=false]) .slide:not([data-pagenum=false])::after {
+	&:not([data-slide-nums=false]) .slide:not([data-slide-num=false])::after {
 		content: counter( slide-number );
 		counter-increment: slide-number;
-
 		position: absolute;
 		bottom: 1rem;
 		right: 1rem;
+	}
+
+	// to ensure that counters increment for all slides we have to have the counter
+	// when we're asked not to, so we just keep it hidden.
+	& .slide[data-slide-num=false]::after {
+		content: counter( slide-number );
+		counter-increment: slide-number;
+		visibility: hidden;
 	}
 
 	// add a progress bar to the bottom of the slide deck.
