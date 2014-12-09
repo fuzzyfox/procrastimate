@@ -12,8 +12,8 @@ module.exports = function( grunt ) {
 				expand: true,
 				flatten: true,
 				map: true,
-				src: 'build/procrastimate.css',
-				dest: 'build/procrastimate.css'
+				src: 'build/*.css',
+				dest: 'build/'
 			}
 		},
 
@@ -23,7 +23,7 @@ module.exports = function( grunt ) {
 				files: [ 'package.json', 'bower.json' ],
 				commit: true,
 				commitMessage: 'Version updated to v%VERSION%',
-				commitFiles: [ 'package.json', 'bower.json' ],
+				commitFiles: [ 'package.json', 'bower.json', 'dist' ],
 				createTag: true,
 				tagName: 'v%VERSION%',
 				push: false
@@ -41,10 +41,18 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// copy some files why not
 		copy: {
 			dev: {
 				src: 'test/index.html',
 				dest: 'build/index.html'
+			},
+			dist: {
+				expand: true,
+				filter: 'isFile',
+				flatten: true,
+				src: 'build/procrastimate.*',
+				dest: 'dist/'
 			}
 		},
 
@@ -61,10 +69,19 @@ module.exports = function( grunt ) {
 
 		// less precompilation
 		less: {
-			// configure for development environment
 			dev: {
 				files: {
 					'build/procrastimate.css': 'src/less/**/*.less'
+				}
+			},
+			dist: {
+				options: {
+					cleancss: true,
+					sourceMap: true,
+					sourceMapFilename: 'build/procrastimate.min.css.map'
+				},
+				files: {
+					'build/procrastimate.min.css': 'src/less/**/*.less'
 				}
 			}
 		},
@@ -75,9 +92,18 @@ module.exports = function( grunt ) {
 				options: {
 					mangle: false,
 					compress: false,
-					preserveComments: 'all'
+					preserveComments: 'all',
+					beautify: true
 				},
 				files: { 'build/procrastimate.js': [  'src/js/main.js', 'src/js/**/*.js' ] }
+			},
+			dist: {
+				options: {
+					mangle: true,
+					compress: true,
+					sourceMap: true
+				},
+				files: { 'build/procrastimate.min.js': [  'src/js/main.js', 'src/js/**/*.js' ] }
 			}
 		},
 
@@ -119,5 +145,14 @@ module.exports = function( grunt ) {
 
 	// register tasks
 	grunt.registerTask( 'default', [ 'serve' ] );
-	grunt.registerTask( 'serve', [ 'jshint', 'less:dev', 'uglify:dev', 'copy:dev', 'connect', 'watch' ] );
+	grunt.registerTask( 'serve', [ 'build', 'connect', 'watch' ] );
+	grunt.registerTask( 'build', [ 'jshint', 'less:dev', 'uglify:dev', 'copy:dev' ] );
+	grunt.registerTask( 'dist', [
+		'build',
+		'less:dist',
+		'uglify:dist',
+		'autoprefixer',
+		'copy:dist',
+		'clean:dist'
+	] );
 };
